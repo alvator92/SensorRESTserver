@@ -14,6 +14,7 @@ import ru.test.sensor.service.MeasurementsService;
 import ru.test.sensor.service.SensorsService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/measurements")
@@ -38,11 +39,10 @@ public class MeasurementController {
     }
 
     @GetMapping("/get/by/{owner}")
-    private List<Measurement> findAll(@PathVariable("owner") String name) {
+    private List<MeasurementDTO> findAll(@PathVariable("owner") String name) {
         Sensor sensor = sensorsService.findByOwnerName(name);
-        for (Measurement measurement : measurementsService.findByOwner(sensor))
-            System.out.println(measurement);
-        return sensor.getMeasurements();
+        return sensor.getMeasurements().stream().map(this::convertToMeasurementDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/get/{id}")

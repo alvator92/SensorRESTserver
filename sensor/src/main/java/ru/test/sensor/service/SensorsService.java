@@ -27,4 +27,9 @@ public class SensorsService {
         return sensorsRepository.findByName(name);
     }
 
+    @Transactional
+    public void create(Sensor sensor) {
+        sensorsRepository.save(sensor);
+    }
+
 }
