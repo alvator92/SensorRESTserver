@@ -35,4 +35,9 @@ public class MeasurementsService {
         return optional.orElse(null);
     }
 
+    @Transactional
+    public void save(Measurement measurement) {
+        measurementsRepository.save(measurement);
+    }
+
 }

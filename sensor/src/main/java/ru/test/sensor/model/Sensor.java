@@ -1,7 +1,11 @@
 package ru.test.sensor.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,9 +17,13 @@ public class Sensor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique=true)
     @NotEmpty(message = "Name should not be Empty")
     private String name;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Measurement> measurements;
@@ -49,6 +57,14 @@ public class Sensor {
 
     public void setMeasurements(List<Measurement> measurements) {
         this.measurements = measurements;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
