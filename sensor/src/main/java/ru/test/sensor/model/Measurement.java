@@ -3,8 +3,8 @@ package ru.test.sensor.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "measurements")
@@ -16,16 +16,20 @@ public class Measurement {
     private int id;
 
     @Column(name = "value")
-    @Size(min = -100, max = 100, message = "Температура должна быть в этих пределах -100 : 100")
+    @Min(value = -100, message = "Температура должна быть в этих пределах -100 : 100")
+    @Max(value = 100, message = "Температура должна быть в этих пределах -100 : 100")
     private int value;
 
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @Column(name = "raining")
-    @NotEmpty
     private boolean raining;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sensor_id", referencedColumnName = "id")
-    @JsonIgnore
+//    @JsonIgnore
     private Sensor owner;
 
     public Measurement() {
@@ -68,12 +72,22 @@ public class Measurement {
         this.owner = owner;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "Measurement{" +
                 "id=" + id +
                 ", value=" + value +
+                ", createdAt=" + createdAt +
                 ", raining=" + raining +
+                ", owner=" + owner +
                 '}';
     }
 }

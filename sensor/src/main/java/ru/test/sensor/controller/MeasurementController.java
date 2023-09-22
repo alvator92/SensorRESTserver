@@ -34,13 +34,6 @@ public class MeasurementController {
         this.sensorsService = sensorsService;
     }
 
-    @GetMapping("/test")
-    private String test() {
-        for (Measurement measurement : measurementsService.findAll())
-            System.out.println(measurement);
-        return "measurementsService.findAll()";
-    }
-
     @GetMapping("/get/by/{owner}")
     private List<MeasurementDTO> findAll(@PathVariable("owner") String name) {
         Sensor sensor = sensorsService.findByName(name);
@@ -56,11 +49,21 @@ public class MeasurementController {
     @PostMapping("/add")
     public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
                                                      BindingResult bindingResult) {
+
+        System.out.println("measurementDTO :" + measurementDTO);
+
         if (bindingResult.hasErrors()) {
+
             return ResponseEntity.ok(HttpStatus.NOT_FOUND);
         }
 
-        measurementsService.save(convertDTOtoMeasurement(measurementDTO));
+        Measurement measurement = convertDTOtoMeasurement(measurementDTO);
+
+        System.out.println(measurement);
+
+        measurement.setOwner(sensorsService.findByName(measurement.getOwner().getName()));
+
+        measurementsService.save(measurement);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

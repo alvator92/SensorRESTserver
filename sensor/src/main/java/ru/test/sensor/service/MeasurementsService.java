@@ -7,6 +7,7 @@ import ru.test.sensor.model.Measurement;
 import ru.test.sensor.model.Sensor;
 import ru.test.sensor.repositories.MeasurementsRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,12 @@ public class MeasurementsService {
 
     @Transactional
     public void save(Measurement measurement) {
+        Sensor sensor = measurement.getOwner();
+        enrichMeasurement(measurement);
         measurementsRepository.save(measurement);
     }
 
+    private void enrichMeasurement(Measurement measurement) {
+        measurement.setCreatedAt(new Date());
+    }
 }

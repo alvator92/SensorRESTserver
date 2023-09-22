@@ -39,17 +39,8 @@ public class SensorController {
         return "Hello World, sensor is coming!";
     }
 
-    @GetMapping("/test")
-    private String test() {
-        for (Sensor sensor : sensorsService.findAll())
-            System.out.println(sensor);
-        return "sensorsService.findAll()";
-    }
-
     @GetMapping("/get")
     private List<SensorDTO> getAll() {
-        for (Sensor sensor : sensorsService.findAll())
-            System.out.println(sensor);
         return sensorsService.findAll().stream().map(this::convertToSensorDTO)
                 .collect(Collectors.toList());
     }
@@ -58,7 +49,7 @@ public class SensorController {
     public ResponseEntity<HttpStatus> registerSensor(@RequestBody @Valid SensorDTO sensorDTO,
                                                      BindingResult bindingResult) {
 
-        sensorValidator.validate(sensorDTO, bindingResult);
+//        sensorValidator.validate(sensorDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
