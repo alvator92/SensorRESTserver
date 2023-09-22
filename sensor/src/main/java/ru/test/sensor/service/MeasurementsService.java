@@ -26,6 +26,10 @@ public class MeasurementsService {
         return measurementsRepository.findAll();
     }
 
+    public List<Measurement> getLimitMeasurements() {
+        return measurementsRepository.getLimitMeasurements();
+    }
+
     public Measurement findById(int id) {
         Optional<Measurement> optional = measurementsRepository.findById(id);
         return optional.orElse(null);

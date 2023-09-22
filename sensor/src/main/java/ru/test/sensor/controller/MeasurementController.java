@@ -34,8 +34,14 @@ public class MeasurementController {
         this.sensorsService = sensorsService;
     }
 
+    @GetMapping("/")
+    private List<MeasurementDTO> findAll() {
+        return measurementsService.getLimitMeasurements().stream().map(this::convertToMeasurementDTO)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/get/by/{owner}")
-    private List<MeasurementDTO> findAll(@PathVariable("owner") String name) {
+    private List<MeasurementDTO> findAllByOwner(@PathVariable("owner") String name) {
         Sensor sensor = sensorsService.findByName(name);
         return sensor.getMeasurements().stream().map(this::convertToMeasurementDTO)
                 .collect(Collectors.toList());
