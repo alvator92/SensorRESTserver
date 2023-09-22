@@ -52,6 +52,11 @@ public class MeasurementController {
         return convertToMeasurementDTO(measurementsService.findById(id));
     }
 
+    @GetMapping("/rainyDaysCount")
+    public long getRainyDaysCount(@RequestParam boolean rain) {
+        return measurementsService.countRainingDays(rain);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
                                                      BindingResult bindingResult) {

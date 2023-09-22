@@ -14,6 +14,8 @@ public interface MeasurementsRepository extends JpaRepository<Measurement, Integ
 
     List<Measurement> findByOwner(Sensor owner);
 
+    long countByRaining(boolean value);
+
     @Query(nativeQuery = true,
             value = "SELECT * FROM measurements s ORDER BY s.created_at DESC LIMIT 5")
     List<Measurement> getLimitMeasurements();

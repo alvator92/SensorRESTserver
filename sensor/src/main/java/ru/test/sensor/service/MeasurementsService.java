@@ -30,6 +30,10 @@ public class MeasurementsService {
         return measurementsRepository.getLimitMeasurements();
     }
 
+    public long countRainingDays(boolean value) {
+        return measurementsRepository.countByRaining(value);
+    }
+
     public Measurement findById(int id) {
         Optional<Measurement> optional = measurementsRepository.findById(id);
         return optional.orElse(null);
