@@ -51,6 +51,16 @@ public class MeasurementsService {
         measurementsRepository.save(measurement);
     }
 
+    @Transactional
+    public void saveList(List<Measurement> measurements) {
+        measurements.forEach(this::save);
+    }
+
+    @Transactional
+    public void saveAll(List<Measurement> measurements) {
+        measurementsRepository.saveAll(measurements);
+    }
+
     private void enrichMeasurement(Measurement measurement) {
         measurement.setCreatedAt(new Date());
     }

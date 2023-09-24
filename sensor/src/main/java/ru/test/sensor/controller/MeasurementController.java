@@ -16,6 +16,7 @@ import ru.test.sensor.utils.SensorErrorResponse;
 import ru.test.sensor.utils.SensorNotFoundException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,23 +59,24 @@ public class MeasurementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
+    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody List<@Valid MeasurementDTO> measurementDTOs,
                                                      BindingResult bindingResult) {
 
-        System.out.println("measurementDTO :" + measurementDTO);
+        System.out.println("measurementDTO :" + measurementDTOs);
 
         if (bindingResult.hasErrors()) {
-
             return ResponseEntity.ok(HttpStatus.NOT_FOUND);
         }
 
-        Measurement measurement = convertDTOtoMeasurement(measurementDTO);
+        List<Measurement> measurements = new ArrayList<>();
 
-        System.out.println(measurement);
+        measurementDTOs.stream().forEach(measurementDTO -> {
+            Measurement measurement = convertDTOtoMeasurement(measurementDTO);
+            measurement.setOwner(sensorsService.findByName(measurement.getOwner().getName()));
+            measurements.add(measurement);
+        });
 
-        measurement.setOwner(sensorsService.findByName(measurement.getOwner().getName()));
-
-        measurementsService.save(measurement);
+        measurementsService.saveAll(measurements);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
