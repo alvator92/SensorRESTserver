@@ -29,7 +29,7 @@ public class Measurement {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sensor_id", referencedColumnName = "id")
-//    @JsonIgnore
+    @JsonIgnore
     private Sensor owner;
 
     public Measurement() {

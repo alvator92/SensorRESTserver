@@ -30,6 +30,11 @@ public class MeasurementsService {
         return measurementsRepository.getLimitMeasurements();
     }
 
+    public List<Measurement> findMeasurementsByOwnerWithLimit(int ownerId, int limit) {
+        Optional<List<Measurement>> list = measurementsRepository.findMeasurementsByOwnerWithLimit(ownerId, limit);
+        return list.orElse(null);
+    }
+
     public long countRainingDays(boolean value) {
         return measurementsRepository.countByRaining(value);
     }
@@ -58,6 +63,7 @@ public class MeasurementsService {
 
     @Transactional
     public void saveAll(List<Measurement> measurements) {
+        measurements.forEach(this::enrichMeasurement);
         measurementsRepository.saveAll(measurements);
     }
 

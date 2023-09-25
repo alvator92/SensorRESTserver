@@ -41,6 +41,19 @@ public class MeasurementController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/get/limit/{ownerId}/{limit}")
+    public List<MeasurementDTO> findMeasurementsByOwnerWithLimit(@PathVariable("ownerId") int ownerId,
+                                                                 @PathVariable("limit") int limit) {
+
+        List<Measurement> responseList = measurementsService.findMeasurementsByOwnerWithLimit(ownerId, limit);
+        List<MeasurementDTO> dtos = new ArrayList<>();
+        responseList.forEach(measurement -> {
+            dtos.add(convertToMeasurementDTO(measurement));
+        });
+
+        return dtos;
+    }
+
     @GetMapping("/get/by/{owner}")
     private List<MeasurementDTO> findAllByOwner(@PathVariable("owner") String name) {
         Sensor sensor = sensorsService.findByName(name);

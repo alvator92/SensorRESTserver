@@ -14,7 +14,7 @@ public class MeasurementService {
     public List<MeasurementDTO> createMeasurementList(String owner) {
         List<MeasurementDTO> list = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             list.add(new MeasurementDTO(
                     getRndNumber(),
                     new Random().nextBoolean(),
@@ -26,8 +26,8 @@ public class MeasurementService {
 
     private int getRndNumber() {
         Random random = new Random();
-        int low = -100;
-        int high = 100;
+        int low = -25;
+        int high = 42;
 
         return random.nextInt(high-low) + low;
     }

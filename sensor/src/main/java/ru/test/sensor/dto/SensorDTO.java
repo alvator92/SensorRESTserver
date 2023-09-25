@@ -10,8 +10,8 @@ public class SensorDTO {
     @NotEmpty(message = "Name should not be Empty")
     private String name;
 
-    @JsonIgnore
-    private List<MeasurementDTO> measurements;
+//    @JsonIgnore
+//    private List<MeasurementDTO> measurements;
 
     public String getName() {
         return name;
@@ -21,13 +21,13 @@ public class SensorDTO {
         this.name = name;
     }
 
-    public List<MeasurementDTO> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(List<MeasurementDTO> measurements) {
-        this.measurements = measurements;
-    }
+//    public List<MeasurementDTO> getMeasurements() {
+//        return measurements;
+//    }
+//
+//    public void setMeasurements(List<MeasurementDTO> measurements) {
+//        this.measurements = measurements;
+//    }
 
     @Override
     public String toString() {
